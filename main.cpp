@@ -1,5 +1,6 @@
 // this constant won't change. It's the pin number of the sensor's output:
-const int pingPin = 7;
+const int echoPin = 7;
+const int pingPin = 6;
 const int buzzerPin = 10;
 
 void setup() {
@@ -7,8 +8,9 @@ void setup() {
   Serial.begin(9600);
   
   // Set buzzer pin as output
-  pinMode(buzzerPin, OUTPUT); 
-  
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(pingPin, OUTPUT); 
+  pinMode(echoPin, INPUT);
 }
 
 void loop() {
@@ -18,7 +20,7 @@ void loop() {
 
   // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  pinMode(pingPin, OUTPUT);
+
   digitalWrite(pingPin, LOW);
   delayMicroseconds(2);
   digitalWrite(pingPin, HIGH);
@@ -28,15 +30,15 @@ void loop() {
   // The same pin is used to read the signal from the PING))): a HIGH pulse
   // whose duration is the time (in microseconds) from the sending of the ping
   // to the reception of its echo off of an object.
-  pinMode(pingPin, INPUT);
-  duration = pulseIn(pingPin, HIGH);
+
+  duration = pulseIn(echoPin, HIGH);
 
   // convert the time into a distance
   cm = microsecondsToCentimeters(duration);
 
   
   // trigger the buzzer when the distance is over 20cm
-  if (cm > 200) {
+  if (cm > 12) {
     Serial.print("ass is buzzing: \n");
     digitalWrite(buzzerPin, HIGH); // Turn on the buzzer
     delay(1000);                   // Wait for 1 second
@@ -44,7 +46,7 @@ void loop() {
     delay(1000);                   // Wait for 1 second
   } else {
     Serial.print("not buzzing: \n");
-    digitalWrite(buzzerPin, LOW);  // Turn off the buzzer
+    digitalWrite(buzzerPin, LOW);  // Turn off the buzzer 
     delay(1000);                   // Wait for 1 second
   }
   	
